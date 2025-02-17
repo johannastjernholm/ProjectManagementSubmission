@@ -11,7 +11,12 @@ public class DataContextFacory : IDesignTimeDbContextFactory<DataContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
         // Connectionstring
-        optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projects\ProjectManagementSubmission\Data\DataBases\local_pm_database.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=True");
+        optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projects\ProjectManagementSubmission\Data\DataBases\local_pm_database.mdf;
+                                        Integrated Security=True;
+                                        Initial Catalog=local_pm_database;
+                                        Connect Timeout=30;
+                                        TrustServerCertificate=True;
+                                        Encrypt=True");
 
         return new DataContext(optionsBuilder.Options);
     }
