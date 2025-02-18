@@ -1,25 +1,40 @@
 ﻿using Business.Factories;
 using Business.Models;
+using Data.Entities;
 using Data.Repositories;
 
 namespace Business.Services;
 // Koden skriver med hjälp av ChatGPT
-public class ProjectService(ProjectRepository projectRepository)
+public class ProjectService(ProjectRepository projectRepository, CustomerRepository customerRepository)
 {
     private readonly ProjectRepository _projectRepository = projectRepository;
+    private readonly CustomerRepository _customerRepository = customerRepository;
 
     //Lägg till datan vi får in från formuläret
     public async Task CreateProjectAsync(ProjectRegistrationForm form)
     {
+        var customer = await _customerRepository.GetAsync(x => x.CustomerName ==  form.CustomerName);
+        //Kontrollera så kund finns i databasen innan nytt projekt skapas
+        if (customer == null)
+        {
+            customer = new CustomerEntity { CustomerName = form.CustomerName };
+            await _customerRepository.AddAsync(customer);
+
+        }
+
         var projectEntity = ProjectFactory.Create(form);
         if (projectEntity == null)
         {
-            return;
+            throw new Exception("Misslyckades att skapa projekt");
         }
+
+        
+        projectEntity.CustomerId = customer.Id;
 
         await _projectRepository.AddAsync(projectEntity);
 
     }
+
     //Hämta alla projects
     public async Task<IEnumerable<Project>> GetProjectsAsync()
     {
