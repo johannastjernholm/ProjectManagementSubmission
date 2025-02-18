@@ -9,11 +9,24 @@ public class CustomerService(CustomerRepository customerRepository)
     private readonly CustomerRepository _customerRepository = customerRepository;
 
 
-    public async Task CreateCustomerAsync(CustomerRegistrationForm form)
+    public async Task<bool> CreateCustomerAsync(CustomerRegistrationForm form)
     {
-        var customerEntity = CustomerFactory.Create(form);
+        //Om kundnamnet finns så lägger vi inte till den
+        var existingCustomer = await _customerRepository.GetAsync(x => x.CustomerName == form.CustomerName);
+        if (existingCustomer != null)
+        {
+            return false;
+        }
 
+        var customerEntity = CustomerFactory.Create(form);
+        //Kontroll om vi får all indata från formuläret
+        if (customerEntity == null)
+        {
+            throw new Exception("Misslyckades med att skapa kund");
+        }
+        //Spara entiteten till databasen
         await _customerRepository.AddAsync(customerEntity!);
+        return true;
     }
 
     public async Task<IEnumerable<Customer?>> GetCustomersAsync()
