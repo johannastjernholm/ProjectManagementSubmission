@@ -1,7 +1,7 @@
 ﻿using Data.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-
+//Kod skriven vid Hans Mattin-Lassei föreläsning
 namespace Data.Repositories;
 //Base repositoryn hanterar funktionalitet nära databasen
 public abstract class BaseRepository<TEntity>(DataContext context) where TEntity : class
