@@ -11,6 +11,33 @@ public class CustomerController(CustomerService customerService) : ControllerBas
 {
     private readonly CustomerService _customerService = customerService;
 
+    /// <summary>
+    /// Hämta alla kunder
+    /// </summary>
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers()
+    {
+        var customers = await _customerService.GetCustomersAsync();
+        return Ok(customers);
+    }
+
+    /// <summary>
+    /// Hämta kund med kundnamn
+    /// </summary>
+    [HttpGet("{customerName}")]
+    public async Task<ActionResult<Customer?>> GetCustomerByCustomerName(string customerName)
+    {
+        var customer = await _customerService.GetCustomerByCustomerNameAsync(customerName);
+        if (customer == null)
+        {
+            return NotFound($"Ingen kund med {customerName} hittades");
+        }
+        return Ok(customer);
+    }
+
+    /// <summary>
+    /// Skapa ny kund
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult> CreateCustomer([FromBody] CustomerRegistrationForm form)
     {
@@ -26,7 +53,33 @@ public class CustomerController(CustomerService customerService) : ControllerBas
         }
         return Ok("Ny kund har skapats");
     }
+    /// <summary>
+    /// Uppdatera en kund
+    /// </summary>
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
+    {
+        customer.Id = id;
 
-    
+        var result = await _customerService.UpdateCustomerAsync(customer);
+        if (!result)
+        {
+            return NotFound("Kunden finns inte");
+        }
+        return Ok("Kund uppdaterad");
+    }
+    /// <summary>
+    /// Radera kunden
+    /// </summary>
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteCustomer(int id)
+    {
+        var result = await _customerService.DeleteCustomerAsync(id);
+        if (!result)
+        {
+            return NotFound($"Kunden hittades inte med id: {id}");
+        }
+        return Ok("Kund raderad");
+    }
 
 }
