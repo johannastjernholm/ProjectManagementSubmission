@@ -63,7 +63,7 @@ public class ProjectService(ProjectRepository projectRepository)
         return true;
 
     }
-
+    //Radera ett projekt
     public async Task<bool> DeleteProjectAsync(int id)
     {
         var projectEntity = await _projectRepository.GetAsync(x => x.Id == id);
