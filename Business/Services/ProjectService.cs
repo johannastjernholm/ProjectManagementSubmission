@@ -13,7 +13,7 @@ public class ProjectService(ProjectRepository projectRepository, CustomerReposit
     //Lägg till datan vi får in från formuläret
     public async Task CreateProjectAsync(ProjectRegistrationForm form)
     {
-        var customer = await _customerRepository.GetAsync(x => x.CustomerName ==  form.CustomerName);
+        var customer = await _customerRepository.GetAsync(x => x.CustomerName == form.CustomerName);
         //Kontrollera så kund finns i databasen innan nytt projekt skapas
         if (customer == null)
         {
@@ -28,7 +28,7 @@ public class ProjectService(ProjectRepository projectRepository, CustomerReposit
             throw new Exception("Misslyckades att skapa projekt");
         }
 
-        
+
         projectEntity.CustomerId = customer.Id;
 
         await _projectRepository.AddAsync(projectEntity);
@@ -60,19 +60,19 @@ public class ProjectService(ProjectRepository projectRepository, CustomerReposit
     public async Task<bool> UpdateProjectAsync(Project project)
     {
         var projectEntity = await _projectRepository.GetAsync(x => x.Id == project.Id);
-        
+
         if (projectEntity == null)
         {
             return false;
         }
-       
+
         projectEntity.Description = project.Description;
         projectEntity.Notes = project.Notes;
         projectEntity.StartDate = project.StartDate;
-        projectEntity.EndDate= project.EndDate;
+        projectEntity.EndDate = project.EndDate;
         projectEntity.Status = project.Status;
         projectEntity.CustomerId = project.CustomerId;
-               
+
         await _projectRepository.UpdateAsync(projectEntity);
 
         return true;
