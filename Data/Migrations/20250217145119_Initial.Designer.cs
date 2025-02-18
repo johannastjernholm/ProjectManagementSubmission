@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250217102549_Initial")]
+    [Migration("20250217145119_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -80,12 +80,17 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
                 {
                     b.HasOne("Data.Entities.CustomerEntity", "Customer")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Data.Entities.CustomerEntity", b =>
+                {
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }
