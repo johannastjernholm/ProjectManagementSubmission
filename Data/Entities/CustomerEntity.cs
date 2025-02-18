@@ -10,4 +10,5 @@ public class CustomerEntity
     public int Id { get; set; }
     [Column(TypeName = "nvarchar(100)")]
     public string CustomerName { get; set; } = null!;
+    public ICollection<ProjectEntity> Projects { get; set; } = new List<ProjectEntity>();
 }
