@@ -13,23 +13,31 @@ public class ProjectService(ProjectRepository projectRepository, CustomerReposit
     //Lägg till datan vi får in från formuläret
     public async Task CreateProjectAsync(ProjectRegistrationForm form)
     {
-        var customer = await _customerRepository.GetAsync(x => x.CustomerName == form.CustomerName);
-        //Kontrollera så kund finns i databasen innan nytt projekt skapas
-        if (customer == null)
+        //Hämta en kund som har samma email som formuläret
+        var existingCustomer = await _customerRepository.GetAsync(x => x.CustomerEmail == form.CustomerEmail);
+
+        //Om kunden inte finns - skapa kkunden
+        if (existingCustomer == null)
         {
-            customer = new CustomerEntity { CustomerName = form.CustomerName };
-            await _customerRepository.AddAsync(customer);
+            var newCustomer = new CustomerEntity
+            {
+                CustomerName = form.CustomerName,
+                CustomerEmail = form.CustomerEmail
+            };
 
+
+            await _customerRepository.AddAsync(newCustomer);
+            //existingCustomer var null - nu sätter vi den kund vi nyss skapade till existingCutomer
+            existingCustomer = newCustomer;
         }
-
-        var projectEntity = ProjectFactory.Create(form);
-        if (projectEntity == null)
-        {
-            throw new Exception("Misslyckades att skapa projekt");
-        }
-
-
-        projectEntity.CustomerId = customer.Id;
+       
+            var projectEntity = ProjectFactory.Create(form);
+            if (projectEntity == null)
+            {
+                throw new Exception("Misslyckades att skapa projekt");
+            }       
+                   
+        projectEntity.CustomerId = existingCustomer.Id;
 
         await _projectRepository.AddAsync(projectEntity);
 

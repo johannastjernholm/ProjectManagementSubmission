@@ -10,4 +10,7 @@ public class ProjectRegistrationForm
     public DateTime? EndDate { get; set; }
     public string Status { get; set; } = null!;
     public string CustomerName { get; set; } = null!;
+    public string CustomerEmail { get; set; } = null!;
+
+
 }
