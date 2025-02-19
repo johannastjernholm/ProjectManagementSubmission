@@ -36,6 +36,21 @@ public class CustomerController(CustomerService customerService) : ControllerBas
     }
 
     /// <summary>
+    /// Hämta kund och projekt
+    /// </summary>
+    [HttpGet("{id}/projects")]
+    public async Task<ActionResult<Customer?>> GetCustomerWithProjects(int id)
+    {
+        var customer = await _customerService.GetCustomerWithProjectsAsync(id);
+        if (customer == null)
+        {
+            return NotFound($"Ingen kund hittades med id: {id}");
+        }
+
+        return Ok(customer);
+    }
+
+    /// <summary>
     /// Skapa ny kund
     /// </summary>
     [HttpPost]
