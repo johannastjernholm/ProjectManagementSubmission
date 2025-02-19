@@ -17,7 +17,8 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerName = table.Column<string>(type: "nvarchar(100)", nullable: false)
+                    CustomerName = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    CustomerEmail = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,6 +48,12 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_CustomerEmail",
+                table: "Customers",
+                column: "CustomerEmail",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_CustomerId",

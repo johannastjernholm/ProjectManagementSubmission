@@ -11,7 +11,7 @@ public class CustomerService(CustomerRepository customerRepository)
     public async Task<bool> CreateCustomerAsync(CustomerRegistrationForm form)
     {
         //Om kundnamnet finns så lägger vi inte till den
-        var existingCustomer = await _customerRepository.GetAsync(x => x.CustomerName == form.CustomerName);
+        var existingCustomer = await _customerRepository.GetAsync(x => x.CustomerEmail == form.CustomerEmail);
         if (existingCustomer != null)
         {
             return false;
