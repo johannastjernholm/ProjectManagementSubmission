@@ -16,7 +16,8 @@ public static class CustomerFactory
     {
         Id = entity.Id,
         CustomerName = entity.CustomerName,
-        CustomerEmail = entity.CustomerEmail
+        CustomerEmail = entity.CustomerEmail,
+        Projects = entity.Projects.Select(ProjectFactory.Create).ToList(),
     };
 
 

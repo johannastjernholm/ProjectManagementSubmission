@@ -1,6 +1,8 @@
 ﻿using Business.Factories;
 using Business.Models;
 using Data.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services;
 
@@ -40,6 +42,18 @@ public class CustomerService(CustomerRepository customerRepository)
         return CustomerFactory.Create(customerEntity!);
     }
 
+    public async Task<Customer?> GetCustomerWithProjectsAsync(int customerId)
+    {
+        var customerEntity = await _customerRepository.GetQueryable()
+            .Include(x => x.Projects)
+            .FirstOrDefaultAsync(x => x.Id == customerId);
+
+        if (customerEntity == null)
+        { return null; }
+
+        return CustomerFactory.Create(customerEntity);
+
+    }
     public async Task<Customer?> GetCustomerByCustomerNameAsync(string customerName)
     {
         var customerEntity = await _customerRepository.GetAsync(x => x.CustomerName == customerName);

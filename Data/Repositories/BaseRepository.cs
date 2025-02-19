@@ -27,6 +27,12 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
         var entity = await _db.FirstOrDefaultAsync(expression);
         return entity;
     }
+
+    //Hämta fler entieter (include())
+    public IQueryable<TEntity>GetQueryable()
+    {
+        return _db.AsQueryable();
+    }
     //Uppdatera entitet
     public async Task UpdateAsync(TEntity entity)
     {
