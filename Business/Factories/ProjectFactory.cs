@@ -26,6 +26,6 @@ public static class ProjectFactory
         StartDate = entity.StartDate,
         EndDate = entity.EndDate,
         Status = entity.Status,
-        CustomerId = entity.CustomerId,     
+        CustomerId = entity.CustomerId, 
     };
 }

@@ -17,7 +17,7 @@ public static class CustomerFactory
         Id = entity.Id,
         CustomerName = entity.CustomerName,
         CustomerEmail = entity.CustomerEmail,
-        Projects = entity.Projects.Select(ProjectFactory.Create).ToList(),
+        Projects = entity.Projects.Select(ProjectFactory.Create).ToList()!,
     };
 
 
