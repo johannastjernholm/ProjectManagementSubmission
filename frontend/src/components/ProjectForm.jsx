@@ -55,7 +55,7 @@ const ProjectForm = () => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h1>Add project</h1>
+        <h2>Lägg till ett projekt</h2>
         <input type="text" name="description" placeholder="Desciption" value={formData.description} onChange={handleChange} />
         <input type="text" name="notes" placeholder="Notes" value={formData.notes} onChange={handleChange} />
         <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
