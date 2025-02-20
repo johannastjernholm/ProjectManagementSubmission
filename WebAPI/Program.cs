@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors();
 
 builder.Services.AddControllers();
 
@@ -19,8 +20,6 @@ builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -31,6 +30,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.MapControllers();
 
 app.Run();
