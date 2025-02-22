@@ -79,7 +79,6 @@ public class ProjectService(ProjectRepository projectRepository, CustomerReposit
         projectEntity.StartDate = project.StartDate;
         projectEntity.EndDate = project.EndDate;
         projectEntity.Status = project.Status;
-        projectEntity.CustomerId = project.CustomerId;
 
         await _projectRepository.UpdateAsync(projectEntity);
 
