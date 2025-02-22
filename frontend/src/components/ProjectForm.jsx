@@ -44,6 +44,7 @@ const ProjectForm = () => {
           endDate: "",
           status: "",
           customerEmail: "",
+          customerName: "",
         });
       } else {
         console.log("Något gick fel!");
@@ -55,17 +56,19 @@ const ProjectForm = () => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h2>Lägg till ett projekt</h2>
-        <input type="text" name="description" placeholder="Desciption" value={formData.description} onChange={handleChange} />
+        <h2>Add project</h2>
+        <input type="text" name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
         <input type="text" name="notes" placeholder="Notes" value={formData.notes} onChange={handleChange} />
         <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
         <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
         <input type="text" name="status" placeholder="Status" value={formData.status} onChange={handleChange} required />
+        <input type="text" name="customerName" placeholder="Customer name" value={formData.customerName} onChange={handleChange} required />
         <input type="email" name="customerEmail" placeholder="Email" value={formData.customerEmail} onChange={handleChange} required />
         <br />
         <br />
         <button type="submit">Skapa projekt</button>
       </form>
+      <br />
     </>
   );
 };
