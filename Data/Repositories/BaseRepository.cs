@@ -12,47 +12,92 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
     //Lägga till ny entitet
     public async Task AddAsync(TEntity entity)
     {
-        await _db.AddAsync(entity);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _db.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error AddAsync: {ex.Message}");
+        }
+
     }
     //Hämta läsabar lista över alla
     public async Task<IEnumerable<TEntity>> GetAsync()
     {
-        var entities = await _db.ToListAsync();
-        return entities;
+        try
+        {
+            var entities = await _db.ToListAsync();
+            return entities;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error GetAsync: {ex.Message}");
+            return Enumerable.Empty<TEntity>();
+        }
     }
     //Hämta en särskild entitet
     public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
-        var entity = await _db.FirstOrDefaultAsync(expression);
-        return entity;
+        try
+        {
+            var entity = await _db.FirstOrDefaultAsync(expression);
+            return entity;
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error GetAsync: {ex.Message}");
+            return null;
+        }
     }
 
     //Hämta fler entieter (include())
-    public IQueryable<TEntity>GetQueryable()
+    public IQueryable<TEntity> GetQueryable()
     {
-        return _db.AsQueryable();
+        try
+        {
+            return _db.AsQueryable();
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error GetQueryable: {ex.Message}");
+            return Enumerable.Empty<TEntity>().AsQueryable();
+        }
     }
     //Uppdatera entitet
     public async Task UpdateAsync(TEntity entity)
     {
-        _db.Update(entity);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _db.Update(entity);
+            await _context.SaveChangesAsync();
 
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error UpdateAsync: {ex.Message}");
+        }
     }
     //Radera entitet
     public async Task RemoveAsync(TEntity entity)
     {
-        _db.Remove(entity);
-        await _context.SaveChangesAsync();
+        try
+        {
+
+            _db.Remove(entity);
+            await _context.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error RemoveAsync: {ex.Message}");
+        }
     }
-
-
-
-
-
-
-
-
 
 }
